@@ -1,0 +1,24 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Создать проект{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Создание проекта</h1>
+    <p class="lead">
+        Создание проекта устройства требуется для новых модицикаций оборудования созгасованного с заказчиком.
+    </p>
+    <hr class="my-4">
+    <form method="POST" enctype="multipart/form-data">
+        <p>Введите наименование проекта и укажите устройство.</p>
+        {% csrf_token %}
+        {{info_form|crispy}}
+        {{project_form|crispy}}
+        <button class="btn btn-dark" href="#" role="button" type="submit">СОЗДАТЬ ПРОЕКТ</button>
+        <button class="btn btn-primary" href="#" role="button" type="submit">ПРОСМОТР ИНСТРУКЦИИ</button>
+    </form>
+
+</div>
+
+{% endblock %}

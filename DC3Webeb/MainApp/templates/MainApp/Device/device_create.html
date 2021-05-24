@@ -1,0 +1,21 @@
+{% extends "MainApp/base.html" %}
+{% block title %}Создание устройство{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Создание устройства</h1>
+    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <hr class="my-4">
+    <form method="POST" enctype="multipart/form-data">
+        <p>Укажите название устройства в единичном числе. После создания устройства добавляйте проекты модификации</p>
+        {% csrf_token %}
+        {{info_form|crispy}}
+        <button class="btn btn-dark" href="#" role="button" type="submit">СОЗДАТЬ УСТРОЙСТВО</button>
+        <button class="btn btn-primary" href="#" role="button" type="submit">ПОСМОТРЕТЬ ИНСТРУКЦИЮ</button>
+    </form>
+
+</div>
+
+{% endblock %}

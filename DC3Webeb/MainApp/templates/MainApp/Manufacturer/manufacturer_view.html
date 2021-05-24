@@ -1,0 +1,64 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Просмотр изготовителя{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+
+    <h1 class="display-4">Изготовитель - "{{manufacturer.title}}"</h1>
+    <hr class="my-3">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Адрес электронной почты</th>
+                    <td colspan="3">{{manufacturer.n_email}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Контактное лицо</th>
+                    <td colspan="3">{{manufacturer.contact_name}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Номер телефона</th>
+                    <td colspan="3">{{manufacturer.phone}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">город</th>
+                    <td colspan="3">{{manufacturer.city}}</td>
+                </tr>
+            </tbody>
+        </table>
+    <hr class="my-3">
+
+    <a href="{% url 'manufacturer_edit' pk=manufacturer.pk %}" class="btn btn-dark">РЕДАКТИРОВАТЬ</a>
+
+    <hr class="my-3">
+    <h1 class="display-4">Операции изготовителя</h1>
+    <hr class="my-3">
+    <a href="{% url 'operation_create' %}" class="btn btn-dark">СОЗДАТЬ ОПЕРАЦИЮ</a>
+    <hr class="my-3">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Наименование</th>
+                <th scope="col">Производство</th>
+                <th scope="col">Приоритет</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for operation in operations %}
+                <tr>
+                    <th scope="row">{{operation.pk}}</th>
+                    <td><a href="{% url 'operation_view' pk=operation.pk %}">{{operation.title}}</a></td>
+                    <td>{{operation.manufacturer.title}}</td>
+                    <td>{{operation.priority}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+
+{% endblock %}

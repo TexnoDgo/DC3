@@ -1,0 +1,46 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Все проекты{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">ПРОЕКТЫ</h1>
+    <p class="lead">
+        Ниже предоставлен список проектов для всех устройств. Под проектами подразумевается
+        модицикация устройст для конкретного заказчика. Например: "Корвалия 1", "Пеллекон 1", и.т.д.
+    </p>
+    <hr class="my-2">
+    <a href="{% url 'project_create' %}" class="btn btn-dark">СОЗДАТЬ ПРОЕКТ</a>
+    <a href="#" class="btn btn-primary">ПОСМОТРЕТЬ ИНСТРУКЦИЮ</a>
+    <hr class="my-2">
+    <p>
+        После добавления проектов можно создавать заказы для собстенного производства и
+        для компаний аутсорсеров.
+    </p>
+
+</div>
+<table class="table table-bordered col-10" align="center">
+    <thead>
+        <tr>
+            <th scope="">#</th>
+            <th scope="">Наименование</th>
+            <th scope="">Автор</th>
+            <th scope="">Создан</th>
+            <th scope="">Устройство</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for project in projects %}
+            <tr>
+                <th scope="row">{{project.pk}}</th>
+                <td><a href="{% url 'project_view' pk=project.pk %}">{{project.info.title}}</a></td>
+                <td>{{project.info.author}}</td>
+                <td>{{project.info.create}}</td>
+                <td>{{project.device.info.create}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

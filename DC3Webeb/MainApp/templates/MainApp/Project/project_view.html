@@ -1,0 +1,67 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Проект{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h3 class="display-4">ПРОЕКТ - "{{ project.info.title }}"</h3>
+    <hr class="my-2">
+    <table class="table table-bordered">
+      <tr>
+          <th scope="row">Название</th>
+          <td colspan="3">{{ project.info.title }}</td>
+      </tr>
+      <tr>
+          <th scope="row">Автор</th>
+          <td colspan="3">{{project.info.author}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Создан</th>
+          <td colspan="3">{{project.info.create}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Устройство</th>
+          <td colspan="3">{{project.device.info.title}}</td>
+      </tr>
+    </table>
+    <hr class="my-2">
+    <a href="{% url 'project_edit' pk=project.pk %}" class="btn btn-dark">РЕДАКТИРОВАТЬ ПРОЕКТ</a>
+    <a href="#" class="btn btn-danger">УДАЛИТЬ ПРОЕКТ</a>
+    <a href="#" class="btn btn-primary">ПОСМОТРЕТЬ ИНСТРУКЦИЮ</a>
+    <a href="{% url 'project_assembly' pk=project.pk %}" class="btn btn-info">СБОРКИ ПРОЕКТА</a>
+    <hr class="my-2">
+    <h3 class="display-4">ЗАКАЗЫ ПРОЕКТА</h3>
+    <hr class="my-2">
+    {% if orders %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Наименование</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Создан</th>
+                <th scope="col">Проект</th>
+                <th scope="col">Дата готовности</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <th scope="row">{{order.pk}}</th>
+                    <td><a href="{% url 'order_view' pk=order.pk %}">{{order.info.title}}</a></td>
+                    <td>{{order.info.author}}</td>
+                    <td>{{order.info.create}}</td>
+                    <td>{{order.project.info.title}}</td>
+                    <td>{{order.readiness}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <button type="button" class="btn btn-dark btl-lg col">ДЛЯ ДАННОГО ПРОЕКТА ЗАКАЗЫ НЕ ДОБАВЛЕННЫ</button>
+    {% endif %}
+</div>
+
+
+{% endblock %}

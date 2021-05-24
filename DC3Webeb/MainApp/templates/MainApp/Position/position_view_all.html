@@ -1,0 +1,46 @@
+{% extends "MainApp/base.html" %}
+{% block title %}Все позиции{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">ВСЕ ПОЗИЦИИ</h1>
+    <p class="lead">
+        ###
+    </p>
+    <hr class="my-4">
+    <a href="{% url 'position_create' %}" class="btn btn-dark">СОЗДАТЬ ПОЗИЦИЮ</a>
+    <a href="#" class="btn btn-primary">ПОСМОТРЕТЬ ИНСТРУКЦИЮ</a>
+    <hr class="my-2">
+    <p>###</p>
+
+</div>
+<table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Наименование компонента</th>
+                <th scope="col">Заказ</th>
+                <th scope="col">Кол-во</th>
+                <th scope="col">Приоритет</th>
+                <th scope="col">Материнская сборка</th>
+                <th scope="col">Место хранения</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for position in positions %}
+                <tr>
+                    <th scope="row">{{position.pk}}</th>
+                    <td><a href="{% url 'position_view' pk=position.pk %}">{{position.component.info.title}}</a></td>
+                    <td>{{position.order.info.title}}</td>
+                    <td>{{position.quantity}}</td>
+                    <td>{{position.priority}}</td>
+                    <td>{{position.m_assembly}}</td>
+                    <td>{{position.storage}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

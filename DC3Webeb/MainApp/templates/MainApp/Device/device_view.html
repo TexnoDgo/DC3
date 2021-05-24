@@ -1,0 +1,61 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Устройство{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h3 class="display-4">Устройство - "{{ device.info.title }}"</h3>
+    <hr class="my-2">
+    <table class="table table-bordered">
+      <tr>
+          <th scope="row">Название</th>
+          <td colspan="2">{{device.info.title}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Автор</th>
+          <td colspan="2">{{device.info.author}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Создан</th>
+          <td colspan="2">{{device.info.create}}</td>
+      </tr>
+    </table>
+    <hr class="my-2">
+    <a href="{% url 'device_edit' pk=device.pk %}" class="btn btn-dark">РЕДАКТИРОВАТЬ УСТРОЙСТВО</a>
+    <a href="#" class="btn btn-danger">УДАЛИТЬ УСТРОЙСТВО</a>
+    <a href="#" class="btn btn-primary">ПОСМОТРЕТЬ ИНСТРУКЦИЮ</a>
+    <hr class="my-2">
+    <h4 class="display-4">ПРОЕКТЫ УСТРОЙСТВА</h4>
+    {% if projects %}
+    <hr class="my-2">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Наименование</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Создан</th>
+                <th scope="col">Устройство</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in projects %}
+                <tr>
+                    <th scope="row">{{project.pk}}</th>
+                    <td><a href="{% url 'project_view' pk=project.pk %}">{{project.info.title}}</a></td>
+                    <td>{{project.info.author}}</td>
+                    <td>{{project.info.create}}</td>
+                    <td>{{project.device.info.create}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <hr class="my-2">
+        <button type="button" class="btn btn-dark btl-lg col">ДЛЯ ДАННОГО УСТРОЙСТВА ПРОЕКТЫ НЕ ДОБАВЛЕНЫ</button>
+    {% endif %}
+</div>
+
+
+{% endblock %}

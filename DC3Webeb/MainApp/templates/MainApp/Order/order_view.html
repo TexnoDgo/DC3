@@ -1,0 +1,115 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Заказ{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h3 class="display-4">ЗАКАЗ - "{{ order.info.title }}"</h3>
+    <hr class="my-2">
+    <table class="table table-bordered">
+      <tr>
+          <th scope="row">Название</th>
+          <td colspan="3">{{order.info.title}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Автор</th>
+          <td colspan="3">{{order.info.author}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Создан</th>
+          <td colspan="3">{{order.info.create}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Дата готовности</th>
+          <td colspan="3">{{order.readiness}}</td>
+      </tr>
+      {% if order.table %}
+      <tr>
+          <th scope="row">Таблица</th>
+          <td colspan="3">{{order.table}}</td>
+      </tr>
+      {% endif %}
+      {% if order.position_qr_code_list %}
+      <tr>
+          <th scope="row">Список QR-кодов</th>
+          <td colspan="3">{{order.position_qr_code_list}}</td>
+      </tr>
+      {% endif %}
+    </table>
+    <hr class="my-2">
+    <a href="{% url 'order_edit' pk=order.pk %}" class="btn btn-dark">РЕДАКТИРОВАТЬ ЗАКАЗ</a>
+    <a href="#" class="btn btn-danger">УДАЛИТЬ ЗАКАЗ</a>
+    <a href="#" class="btn btn-primary">ПОСМОТРЕТЬ ИНСТРУКЦИЮ</a>
+    <hr class="my-2">
+    <h3 class="display-4">ПОЗИЦИИ ЗАКАЗ</h3>
+    <hr class="my-2">
+    <!----------------------------ДОБААВЛЕНИЕ ПОЗИЦИИ ДЛЯ ЗАКАЗА---------------------------->
+    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#staticBackdrop">
+        СОЗДАТЬ ПОЗИЦИЮ ДЛЯ ЗАКАЗ
+    </button>
+
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">СОЗДАНИЕ ПОЗИЦИИ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <small class="ml-3">Выберите операцию из выпадающего списка</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ОТМЕНИТЬ</button>
+                        <button class="btn btn-primary" type="submit">СОХРАНИТЬ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-------------------------------------------------------------------------------------->
+    <hr class="my-2">
+    {% if positions %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Наименование компонента</th>
+                <th scope="col">Тип компонента</th>
+                <th scope="col">Заказ</th>
+                <th scope="col">Кол-во</th>
+                <th scope="col">Приоритет</th>
+                <th scope="col">Материнская сборка</th>
+                <th scope="col">Место хранения</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for position in positions %}
+                <tr>
+                    <th scope="row">{{position.pk}}</th>
+                    <td><a href="{% url 'position_view' pk=position.pk %}">{{position.component.info.title}}</a></td>
+                    <td>{{position.order.info.title}}</td>
+                    <td>{{position.component.c_type}}</td>
+                    <td>{{position.quantity}}</td>
+                    <td>{{position.priority}}</td>
+                    <td>{{position.m_assembly}}</td>
+                    <td>{{position.storage}}</td>
+                    <td><a href="#">delete</a></td>
+                    <td><a href="{% url 'position_edit' pk=position.pk %}">edit</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <button type="button" class="btn btn-dark btl-lg col">ДЛЯ ДАННОГО ЗАКАЗА ПОЗИЦИИ НЕ ДОБАВЛЕНЫ</button>
+    {% endif %}
+</div>
+
+
+{% endblock %}

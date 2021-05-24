@@ -1,0 +1,135 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Просмотр позиции{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+
+    <h1 class="display-4">Компонент Позиции - "{{position.component.info.title}}"</h1>
+    <p style="position:absolute; right:20%">Код: {{position.code}}</p>
+    <hr class="my-5">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Название  компонента</th>
+                    <td colspan="3">{{position.component.info.title}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Названеи заказа</th>
+                    <td colspan="3">{{position.order.info.author}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Кол-во</th>
+                    <td colspan="3">{{position.quantity}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Приоритет</th>
+                    <td colspan="3">{{position.priority}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Материнская сборка</th>
+                    <td colspan="3">{{position.m_assembly}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Место хранения</th>
+                    <td colspan="3">{{position.storage}}</td>
+                </tr>
+                {% if position.pk_prod_qr_code or position.smart_prod_qr_code %}
+                <tr>
+                    <th scope="row">Коды</th>
+                    <td>
+                      <img src="{{position.pk_prod_qr_code.url}}" width="50%">
+                    </td>
+                    <td>
+                      <img src="{{position.smart_prod_qr_code.url}}" width="50%">
+                    </td>
+                </tr>
+                {% endif %}
+
+            </tbody>
+        </table>
+    <hr class="my-4">
+    {% if position.component.png_draw %}
+        <div align="center">
+            <img src="{{position.component.png_draw.url}}" width="50%">
+        </div>
+    {% endif %}
+    <hr class="my-3">
+    <a href="{% url 'position_edit' pk=position.pk %}" class="btn btn-dark">РЕДАКТИРОВАТЬ</a>
+    <hr class="my-3">
+    <!-------------------------------------------------------------------------------------->
+    <!--------------------------------------КНОПКИ обеъдинения------------------------------>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+        ДОБАВИТЬ ОПЕРАЦИЮ
+    </button>
+
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">ДОБАВЛЕНИЕ ОПЕРАЦИИ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <small class="ml-3">Выберите операцию из выпадающего списка</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ОТМЕНИТЬ</button>
+                        <button class="btn btn-primary" type="submit">СОХРАНИТЬ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-------------------------------------------------------------------------------------->
+    <hr class="my-3">
+    <!-------------------------------Список объединений------------------------------------->
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Операция</th>
+                <th scope="col">Изготовитель</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Изминение статуса</th>
+                <th scope="col">Удаление</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for anassociation in anassociations %}
+                <tr>
+                    <th scope="row">{{anassociation.pk}}</th>
+                    <td>{{anassociation.operation.title}}</td>
+                    <td>{{anassociation.operation.manufacturer.title}}</td>
+                    <td>{{anassociation.status}}</td>
+                    <td scope="row">
+                        <!--Изминение статуса объединения-->
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a href="{% url 'anassociation_status_edit' pk=anassociation.pk new_status='CREATE' %}"
+                               class="btn btn-primary">Создана</a>
+                            <a href="{% url 'anassociation_status_edit' pk=anassociation.pk new_status='WORK' %}"
+                               class="btn btn-success">В работе</a>
+                            <a href="{% url 'anassociation_status_edit' pk=anassociation.pk new_status='DONE' %}"
+                               class="btn btn-secondary">Готова</a>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="{% url 'anassociation_delete' pk=anassociation.pk %}" class="btn btn-danger">DELETE</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-------------------------------------------------------------------------------------->
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Просмотр операции{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+
+    <h1 class="display-4">Операция - "{{operation.title}}"</h1>
+    <hr class="my-5">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Производство</th>
+                    <td colspan="3">{{operation.manufacturer.title}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Приоритет</th>
+                    <td colspan="3">{{operation.priority}}</td>
+                </tr>
+            </tbody>
+        </table>
+    <hr class="my-4">
+    <a href="{% url 'operation_edit' pk=operation.pk %}" class="btn btn-dark">РЕДАКТИРОВАТЬ</a>
+
+
+</div>
+
+{% endblock %}

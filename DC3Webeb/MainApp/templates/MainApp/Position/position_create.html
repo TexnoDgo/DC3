@@ -1,0 +1,27 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Создать позицию{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">DC3 - Создание позиции</h1>
+    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <hr class="my-4">
+    <form method="POST" enctype="multipart/form-data">
+        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        {% csrf_token %}
+        {{position_form.order|as_crispy_field}}
+        {{position_form.component|as_crispy_field}}
+        {{position_form.quantity|as_crispy_field}}
+        {{position_form.priority|as_crispy_field}}
+        <!--внести ограничения на выбираемые материнские сборки из компонентов. Только ASSEMBLY.-->
+        {{position_form.m_assembly|as_crispy_field}}
+        {{position_form.storage|as_crispy_field}}
+
+        <button class="btn btn-dark" href="#" role="button" type="submit">СОЗДАТЬ</button>
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Просмотр комопнента{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Компонент - "{{component.info.title}}"</h1>
+    <hr class="my-4">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Название</th>
+                    <td colspan="3">{{component.info.title}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Автор</th>
+                    <td colspan="3">{{component.info.author}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Создан</th>
+                    <td colspan="3">{{component.info.create}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Тип</th>
+                    <td colspan="3">{{component.c_type}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Материал</th>
+                    <td colspan="3">{{component.material}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Толщина</th>
+                    <td colspan="3">{{component.thickness}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Кол-во гибов</th>
+                    <td colspan="3">{{component.band_count}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Остаток</th>
+                    <td colspan="3">{{component.remainder}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Файлы</th>
+                    <td>
+                        {% if component.pdf_draw %}
+                            <p>[скачать]</p>
+                            <a href="{{component.pdf_draw.url}}" download><img src="{% static 'MainApp/PDF.png' %}" width="100px"></a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if component.dxf_draw %}
+                            <p>[скачать]</p>
+                            <a href="{{component.dxf_draw.url}}" download><img src="{% static 'MainApp/DXF.png' %}" width="100px"></a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if component.part_file %}
+                            <p>[скачать]</p>
+                            <a href="{{component.part_file.url}}" download><img src="{% static 'MainApp/PART.png' %}" width="100px"></a>
+                        {% endif %}
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    <hr class="my-4">
+    {% if component.png_draw %}
+        <div align="center">
+            <img src="{{component.png_draw.url}}" width="100%">
+        </div>
+    {% endif %}
+    <hr class="my-4">
+    <a href="{% url 'component_edit' pk=component.pk %}" class="btn btn-dark">РЕДАКТИРОВАТЬ</a>
+
+
+</div>
+
+{% endblock %}

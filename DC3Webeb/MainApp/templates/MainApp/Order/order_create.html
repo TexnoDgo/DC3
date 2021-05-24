@@ -1,0 +1,26 @@
+{% extends "MainApp/base.html" %}
+{% block title %}Создать заказ{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">СОЗДАНИЕ ЗАКАЗА</h1>
+    <p class="lead">
+        Заказ создается для формирования списка позиций перед передачей на производство.
+        Укажите название заказа, выберите проект, и укажите приблизительную дату готовности.
+        Дату готовности можно внеси позже.
+    </p>
+    <hr class="my-4">
+    <form method="POST" enctype="multipart/form-data">
+        <p>Дату готовности ввести в формате ГГГГ-ММ-ДД.</p>
+        {% csrf_token %}
+        {{info_form|crispy}}
+        {{order_form|crispy}}
+        <button class="btn btn-dark" href="#" role="button" type="submit">СОЗДАТЬ ЗАКАЗ</button>
+        <button class="btn btn-primary" href="#" role="button" type="submit">ПОСМОТРЕТЬ ИНСТРУКЦИЮ</button>
+    </form>
+
+</div>
+
+{% endblock %}

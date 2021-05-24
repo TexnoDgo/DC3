@@ -1,0 +1,38 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Все изготовители{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">DC3 - Все изготовители</h1>
+    <hr class="my-4">
+    <a href="{% url 'manufacturer_create' %}" class="btn btn-dark">СОЗДАТЬ</a>
+
+</div>
+<table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Наименование</th>
+                <th scope="col">Email</th>
+                <th scope="col">Контактное лицо</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">Город</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for manufacturer in manufacturers %}
+                <tr>
+                    <th scope="row">{{manufacturer.pk}}</th>
+                    <td><a href="{% url 'manufacturer_view' pk=manufacturer.pk %}">{{manufacturer.title}}</a></td>
+                    <td>{{manufacturer.n_email}}</td>
+                    <td>{{manufacturer.contact_name}}</td>
+                    <td>{{manufacturer.phone}}</td>
+                    <td>{{manufacturer.city}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

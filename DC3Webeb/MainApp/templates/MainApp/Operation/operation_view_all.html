@@ -1,0 +1,34 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Все операции{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">DC3 - Все операции</h1>
+    <hr class="my-4">
+    <a href="{% url 'operation_create' %}" class="btn btn-dark">СОЗДАТЬ</a>
+
+</div>
+<table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Наименование</th>
+                <th scope="col">Производство</th>
+                <th scope="col">Приоритет</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for operation in operations %}
+                <tr>
+                    <th scope="row">{{operation.pk}}</th>
+                    <td><a href="{% url 'operation_view' pk=operation.pk %}">{{operation.title}}</a></td>
+                    <td>{{operation.manufacturer.title}}</td>
+                    <td>{{operation.priority}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

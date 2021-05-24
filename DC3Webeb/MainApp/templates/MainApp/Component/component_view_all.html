@@ -1,0 +1,44 @@
+{% extends "MainApp/base.html" %}
+{% block title %}DC3 - Все компоненты{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="jumbotron">
+    <h1 class="display-4">DC3 - Все компоненты</h1>
+    <hr class="my-4">
+    <a href="{% url 'component_create' %}" class="btn btn-dark">СОЗДАТЬ</a>
+
+</div>
+<table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Наименование</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Создан</th>
+                <th scope="col">Тип</th>
+                <th scope="col">Материал</th>
+                <th scope="col">Толщина, мм</th>
+                <th scope="col">Кол-во гибов, шт</th>
+                <th scope="col">Остаток, шт</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for component in components %}
+                <tr>
+                    <th scope="row">{{component.pk}}</th>
+                    <td><a href="{% url 'component_view' pk=component.pk %}">{{component.info.title}}</a></td>
+                    <td>{{component.info.author}}</td>
+                    <td>{{component.info.create}}</td>
+                    <td>{{component.c_type}}</td>
+                    <td>{{component.material}}</td>
+                    <td>{{component.thickness}}</td>
+                    <td>{{component.band_count}}</td>
+                    <td>{{component.remainder}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
