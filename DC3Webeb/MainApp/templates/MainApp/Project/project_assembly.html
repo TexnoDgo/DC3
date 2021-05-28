@@ -39,7 +39,7 @@
                 <td colspan="6" align="center">
                     <div class="d-flex bd-highlight">
                         <div class="flex-grow-1 bd-highlight">
-                            Сборка - {{m_position.component.info.title}}
+                            Сборка - {{m_position.info.title}}
                         </div>
                         <div class="bd-highlight">
                              <a href="{% url 'project_specification' pk=project.pk a_type='PROJECT' m_position_pk=m_position.pk %}" class="btn btn-dark ">
@@ -50,7 +50,7 @@
                 </td>
             </tr>
                 {% for position in orders_positions %}
-                    {% if position.m_assembly == m_position.component %}
+                    {% if position.m_assembly == m_position %}
                         <tr>
                             <th scope="row">{{position.pk}}</th>
                             <td><a href="#">{{position.component.info.title}}</a></td>

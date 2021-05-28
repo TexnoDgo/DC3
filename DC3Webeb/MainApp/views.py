@@ -199,7 +199,7 @@ class ProjectClass:
     # Функция просмотра сборок проекта со всеми в нее входящими
     def project_assembly(request, pk):
         project = Project.objects.get(pk=pk)
-        m_positions = []
+        m_positions = set()
         orders_positions = []
         orders = Order.objects.filter(project=project)
 
@@ -207,8 +207,11 @@ class ProjectClass:
             positions = Position.objects.filter(order=order)
             for position in positions:
                 orders_positions.append(position)
-                if position.component.c_type == 'ASSEMBLY':
-                    m_positions.append(position)
+                if position.m_assembly.c_type == 'ASSEMBLY':
+                    print(position)
+                    m_positions.add(position.m_assembly)
+        print(orders_positions)
+        print(m_positions)
 
         context = {
             'project': project,

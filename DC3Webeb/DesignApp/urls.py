@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 from .views import *
 
 urlpatterns = [
-    path('get_info', GetInfoClass.as_view()),
+    path('get_request', GetRequestClass.as_view()),
 ]
 
 if settings.DEBUG:
